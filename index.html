@@ -1,0 +1,141 @@
+<!-- ver sitios gratis para dominios y subir la web a la nube
+     github
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="stylesheet" type="text/css" href="clase.css">
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1>Castillo Chaustre Jorge Alberto</h1>
+            <p><strong>Tecnicatura en Programacion</strong> - Programacion en Aplicaciones Web</p>
+        </div>
+        <!--<img src="images/manati.jpg" alt="Foto de Castillo Chaustre Jorge Alberto">-->
+       <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#sobremi">Sobre mí</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="inicio">
+            <h2>Hola soy Jorge</h2>
+            <p>Estudiante de programacion en la <strong>Universidad Nacional de Salta</strong>, especializándome en <strong>ciberseguridad y redes</strong>.</p>
+            <a href="#proyectos">Mis proyectos</a>
+            <a href="#contacto">Contactame</a>
+        </section>
+        <section id="sobremi">
+            <h2>Sobre Mí</h2>
+            <p>Mi aprendizaje en programacion comenzo en 2021 con el inicio de mi carrera universitaria</p>
+            <h3>Habilidades técnicas:</h3>
+                <ul>
+                    <li><strong>Programación:</strong> C++, Java, Python</li>
+                    <li><strong>Desarrollo Web:</strong> HTML, CSS, JavaScript, Django</li>
+                    <li><strong>Bases de Datos:</strong> SQL, PostgreSQL</li>
+                    <li><strong>Ciberseguridad:</strong> Kali Linux, Nmap, Metasploit</li>
+                    <li><strong>Redes:</strong> Cisco Packet Tracer, configuración de redes</li>
+                    <li><strong>Herramientas:</strong> VirtualBox, GitHub</li>
+                    <li><strong>Sistemas Operativos:</strong> Kali Linux, Ubuntu, Windows 10/11</li>
+                </ul>
+        </section>
+        <section id="proyectos">
+            <h2>Mis Proyectos</h2>
+            <div>
+                <h3>Proyecto Django - Complejo Deportivo</h3>
+                <p>Aplicación web desarrollada con Django para Optativa Desarrollo en Python</p>
+                <p><strong>Tecnologías:</strong> Django, Python, HTML, CSS, Boostrap</p>
+                <p><strong>Fecha:</strong> 08/2022 - 12/2022</p>
+            </div>
+            <div>
+                <h3>Proyecto Django - Veterinaria</h3>
+                <p>Aplicación web desarrollada con Django, gestion administrativa de una veterinaria con clientes,turnos y productos.</p>
+                <p><strong>Tecnologías:</strong> Django, Python, HTML, CSS, Boostrap</p>
+                <p><strong>Fecha:</strong> 01/2025 - 03/2025</p>
+            </div>
+            <div>
+                <h3>Proyecto Integrador POO</h3>
+                <p>Aplicación de escritorio con interfaz gráfica desarrollada en [Java/C++].</p>
+                <p>Simulacion de taxi aleatorio recogiendo pasajeros en diferetes formatos de ciudad adaptados segun el usuario</p>
+                <p><strong>Características:</strong> Programación Orientada a Objetos, GUI, Java</p>
+                <p><strong>Fecha:</strong> 05/2022 - 07/2022</p>
+            </div>
+            <div>
+                <h3>Prácticas de Ciberseguridad</h3>
+                <p>Entornos virtualizados con VirtualBox para prácticas de pentesting y análisis de seguridad.</p>
+                <p><strong>Herramientas:</strong> Kali Linux, Nmap, Metasploit</p>
+                <p><strong>Fecha:</strong> 01/2025 - Actualidad</p>
+                
+            </div>
+        </section>
+        <section id="contacto">
+        <!----------------------------------------------------------------------------------------------------------------->
+        <h3>Contacto</h3>
+        <form method="post">
+            <label for="nombre">Nombre:</label><br>
+            <input type="text" placeholder="Nombre" required minlength="2" maxlength="20" pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Solo letras y espacios"><br>
+            <label for="apellido">Apellido:</label><br>
+            <input type="text" placeholder="Apellido" required minlength="2" maxlength="20" pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Solo letras y espacios"><br>
+            <label for="email">Email:</label><br>
+            <input type="email" placeholder="Email" required><br>
+            <label for="motivo">Consulta</label>
+            <select id="motivo" name="consulta">
+                <option value="1">Trabajo</option>
+                <option value="2">Facultad</option>
+                <option value="3">Emergencia</option>
+            </select><br>
+            <label for="">Mensaje</label><br>
+            <textarea placeholder="Escriba aquí..." required minlength="10" title="Mínimo 10 caracteres"></textarea><br>
+            <button type="submit">Enviar mensaje</button><br>
+        </form>
+        <!------------------------------------------------------------------------------------------------->
+        <h3>Inscripcion</h3>
+        <form>
+            <label for="nombre">Nombre:</label><br>
+            <input type="text" placeholder="Nombre" required minlength="2" maxlength="20" pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Solo letras y espacios"><br>
+            <label for="apellido">Apellido:</label><br>
+            <input type="text" placeholder="Apellido" required minlength="2" maxlength="20" pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Solo letras y espacios"><br>
+            <label for="usuario">Usuario:</label><br>
+            <input type="text" placeholder="Usuario" required minlength="4" maxlength="20" pattern="[A-Za-z0-9_]+" title="Solo letras, números y guiones bajos"><br>
+            <label for="contraseña">Contraseña:</label><br>
+            <input type="password" placeholder="Contraseña" required><br>
+            <label for="genero">Genero</label> <br>
+            <label>
+            <input type="radio" name="genero" value="hombre" required> Hombre
+            </label>
+            <label>
+            <input type="radio" name="genero" value="mujer"> Mujer
+            </label>
+            <label>
+            <input type="radio" name="genero" value="no-especifica"> No especifica
+            </label><br>
+            <label for="">Edad</label><br>
+            <input type="date" required min="1920-01-01" max="2020-12-31"><br>
+            <select id="dni" name="DNI" required>
+                <option value="">Seleccione tipo de documento</option>
+                <option value="dni">DNI</option>
+                <option value="pasaporte">Pasaporte</option>
+                <option value="otro">Otro</option>
+            </select>
+            <input type="text" placeholder="Ingrese el numero" required  pattern="[0-9]{7,8}" title="7 u 8 dígitos numéricos"><br>
+            <button type="submit">Enviar formulario</button>
+            <button type="reset">Limpiar</button><br>
+        </form>
+    </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 Castillo Chaustre Jorge Alberto - Todos los derechos reservados</p>
+        <p>📍 Salta, Argentina</p>
+        <p>📧 jorcascero@gmail.com</p>
+    </footer>
+    
+    </body>
+</html>
