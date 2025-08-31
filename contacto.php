@@ -21,10 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     try {
         // Configuración del servidor SMTP
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';      // Servidor SMTP (ej: Gmail)
+        $mail->Host       = 'smtp.gmail.com';      // Servidor SMTP
         $mail->SMTPAuth   = true;                  // Habilitar autenticación
-        $mail->Username   = 'jorcascero@gmail.com'; 
-        $mail->Password   = 'ohmrrfmcaqphsneg'; // App Password
+        
+        $config = require __DIR__ . '/configpass.php'; //ajustar ruta si se mueve de lugar el archivo
+        $mail->Username   = $config['SMTP_USER'];
+        $mail->Password   = $config['SMTP_PASS'];
+
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; 
         $mail->Port       = 587;                   
 
@@ -38,13 +41,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Contenido del correo
         $mail->isHTML(true);
         $mail->Subject = "Portfolio: $motivo";
-        $mail->Body    = "
-            <h2>Contacto desde la Web</h2>
+        $mail->Body = "
+        <div style='font-family: Arial, sans-serif; color: #333;'>
+            <h2 style='color:#4CAF50;'>Contacto desde la Web</h2>
             <p><strong>De:</strong> $nombre $apellido</p>
             <p><strong>Email:</strong> $email</p>
             <p><strong>Motivo:</strong> $motivo</p>
             <p><strong>Mensaje:</strong> $mensaje</p>
+            <hr>
+            <p style='font-size:12px;color:#888;'>Este correo fue enviado desde el formulario del portfolio.</p>
+        </div>
         ";
+
 
         $mail->send();
         echo "<h1>¡Gracias por contactarte, $nombre!</h1>";
