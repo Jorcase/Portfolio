@@ -79,55 +79,28 @@
         <section id="contacto">
         <!----------------------------------------------------------------------------------------------------------------->
         <h3>Contacto</h3>
-        <form method="post">
+        <form method="post" action="contacto.php">
+            
             <label for="nombre">Nombre:</label><br>
-            <input type="text" placeholder="Nombre" required minlength="2" maxlength="20" pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Solo letras y espacios"><br>
+            <input type="text" name="nombre" placeholder="Nombre" required minlength="2" maxlength="20" pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Solo letras y espacios" autocomplete="off"><br>
+            
             <label for="apellido">Apellido:</label><br>
-            <input type="text" placeholder="Apellido" required minlength="2" maxlength="20" pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Solo letras y espacios"><br>
+            <input type="text" name="apellido" placeholder="Apellido" required minlength="2" maxlength="20" pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Solo letras y espacios" autocomplete="off"><br>
+            
             <label for="email">Email:</label><br>
-            <input type="email" placeholder="Email" required><br>
+            <input type="email" name="email" placeholder="Email" required><br>
+            
             <label for="motivo">Consulta</label>
-            <select id="motivo" name="consulta">
-                <option value="1">Trabajo</option>
-                <option value="2">Facultad</option>
-                <option value="3">Emergencia</option>
+            <select name="motivo" name="consulta">
+                <option value="">Seleccione motivo</option>
+                <option value="trabajo">Trabajo</option>
+                <option value="facultad">Facultad</option>
+                <option value="emergencia">Emergencia</option>
             </select><br>
-            <label for="">Mensaje</label><br>
-            <textarea placeholder="Escriba aquí..." required minlength="10" title="Mínimo 10 caracteres"></textarea><br>
+
+            <label for="mensaje">Mensaje</label><br>
+            <textarea name="mensaje" placeholder="Escriba aquí..." required minlength="10" title="Mínimo 10 caracteres"></textarea><br>
             <button type="submit">Enviar mensaje</button><br>
-        </form>
-        <!------------------------------------------------------------------------------------------------->
-        <h3>Inscripcion</h3>
-        <form>
-            <label for="nombre">Nombre:</label><br>
-            <input type="text" placeholder="Nombre" required minlength="2" maxlength="20" pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Solo letras y espacios"><br>
-            <label for="apellido">Apellido:</label><br>
-            <input type="text" placeholder="Apellido" required minlength="2" maxlength="20" pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+" title="Solo letras y espacios"><br>
-            <label for="usuario">Usuario:</label><br>
-            <input type="text" placeholder="Usuario" required minlength="4" maxlength="20" pattern="[A-Za-z0-9_]+" title="Solo letras, números y guiones bajos"><br>
-            <label for="contraseña">Contraseña:</label><br>
-            <input type="password" placeholder="Contraseña" required><br>
-            <label for="genero">Genero</label> <br>
-            <label>
-            <input type="radio" name="genero" value="hombre" required> Hombre
-            </label>
-            <label>
-            <input type="radio" name="genero" value="mujer"> Mujer
-            </label>
-            <label>
-            <input type="radio" name="genero" value="no-especifica"> No especifica
-            </label><br>
-            <label for="">Edad</label><br>
-            <input type="date" required min="1920-01-01" max="2020-12-31"><br>
-            <select id="dni" name="DNI" required>
-                <option value="">Seleccione tipo de documento</option>
-                <option value="dni">DNI</option>
-                <option value="pasaporte">Pasaporte</option>
-                <option value="otro">Otro</option>
-            </select>
-            <input type="text" placeholder="Ingrese el numero" required  pattern="[0-9]{7,8}" title="7 u 8 dígitos numéricos"><br>
-            <button type="submit">Enviar formulario</button>
-            <button type="reset">Limpiar</button><br>
         </form>
     </section>
     </main>
