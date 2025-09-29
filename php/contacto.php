@@ -1,26 +1,33 @@
 <?php
-// Mostrar errores en desarrollo (⚠️ desactivar en producción)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+declare(strict_types=1);
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require __DIR__ . '/../vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->safeLoad();
+
+$environment = $_ENV['APP_ENV'] ?? 'production';
+
+if ($environment === 'local') {
+    error_reporting(E_ALL);
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+} else {
+    error_reporting(0);
+    ini_set('display_errors', '0');
+    ini_set('display_startup_errors', '0');
+}
+
 require __DIR__ . '/conexion.php';
 
-// Sesión para el token
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Todas las respuestas serán JSON
 header('Content-Type: application/json; charset=utf-8');
-
-// Cargar variables de entorno (.env)
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
-$dotenv->load();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(["success" => false, "message" => "Acceso inválido"]);
@@ -111,8 +118,9 @@ try {
         "message" => "¡Gracias por contactarte, $nombre!"
     ]);
 } catch (Exception $e) {
+    error_log('Error enviando correo desde contacto.php: ' . $mail->ErrorInfo);
     echo json_encode([
         "success" => false,
-        "message" => "No se pudo enviar el correo: {$mail->ErrorInfo}"
+        "message" => "No se pudo enviar el correo en este momento. Intentá más tarde."
     ]);
 }

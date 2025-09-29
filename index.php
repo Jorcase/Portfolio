@@ -2,6 +2,7 @@
 // index.php
 require_once 'php/conexion.php';
 require_once 'includes/funciones.php';
+require_once 'includes/layouts/site.php';
 
 // Sesión para token anti doble envío
 if (session_status() === PHP_SESSION_NONE) {
@@ -14,45 +15,53 @@ $formToken = $_SESSION['form_token'];
 $proyectos = obtenerProyectos($conexion);
 $tecnologias = obtenerTecnologias($conexion);
 $habilidades = obtenerHabilidades($conexion);
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Jorge Castillo</title>
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tus estilos personalizados -->
-    <link rel="stylesheet" type="text/css" href="clase.css">
-</head>
 
-<body class="bg-gray-50 text-gray-800 font-sans">
+// Imagen de fondo para la sección principal (podés dejarla vacía si preferís sólo el degradado).
+$heroBackgroundImage = 'images/portfolio2.jpg';
+$heroBannerStyle = '';
+
+if ($heroBackgroundImage !== '') {
+    $heroBackgroundImageSafe = htmlspecialchars($heroBackgroundImage, ENT_QUOTES, 'UTF-8');
+    $heroBannerStyle = "background-image: url('{$heroBackgroundImageSafe}');";
+}
+// Cabecera con layout
+siteLayoutHeader([
+    'title'     => 'Portfolio - Jorge Castillo',
+    'bodyClass' => 'text-gray-800 font-sans antialiased page-surface'
+]);
+?>
     <!-- Header -->
-    <header class="bg-white shadow-md fixed w-full top-0 z-10">
-        <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
-            <div class="text-center md:text-left mb-4 md:mb-0">
-                <h1 class="text-2xl font-bold text-blue-800">Castillo Chaustre Jorge Alberto</h1>
-                <p class="text-gray-600"><strong>Tecnicatura en Programación</strong> - Programación en Aplicaciones Web</p>
+    <header class="fixed inset-x-0 top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
+        <div class="container relative mx-auto flex items-center justify-between gap-6 px-4 py-4 md:px-6">
+            <div class="flex flex-col text-left">
+                <h1 class="text-xl font-bold text-blue-800 sm:text-2xl">Castillo Chaustre Jorge Alberto</h1>
+                <p class="text-sm text-gray-600 sm:text-base"><strong>Tecnicatura en Programación</strong> - Programación en Aplicaciones Web</p>
             </div>
-            
-            <nav class="w-full md:w-auto">
-                <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 justify-center">
-                    <li><a href="#inicio" class="block py-2 px-4 hover:bg-blue-100 rounded transition">Inicio</a></li>
-                    <li><a href="#sobremi" class="block py-2 px-4 hover:bg-blue-100 rounded transition">Sobre mí</a></li>
-                    <li><a href="#proyectos" class="block py-2 px-4 hover:bg-blue-100 rounded transition">Proyectos</a></li>
-                    <li><a href="#contacto" class="block py-2 px-4 hover:bg-blue-100 rounded transition">Contacto</a></li>
-                </ul>
+
+            <button id="nav-toggle" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 text-slate-600 transition hover:border-blue-500 hover:text-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 md:hidden" aria-expanded="false" aria-controls="primary-nav">
+                <span class="sr-only">Abrir menú</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+            <nav id="primary-nav" class="hidden absolute left-0 right-0 top-full flex-col gap-3 border-t border-slate-200 bg-white px-4 py-4 text-sm font-medium text-slate-700 shadow-lg md:static md:flex md:w-auto md:flex-row md:items-center md:gap-8 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-base md:shadow-none">
+                <a href="#inicio" class="rounded-md px-3 py-2 transition hover:text-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500">Inicio</a>
+                <a href="#sobremi" class="rounded-md px-3 py-2 transition hover:text-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500">Sobre mí</a>
+                <a href="#proyectos" class="rounded-md px-3 py-2 transition hover:text-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500">Proyectos</a>
+                <a href="#contacto" class="rounded-md px-3 py-2 transition hover:text-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500">Contacto</a>
             </nav>
         </div>
     </header>
 
-    <main class="pt-24">
+    <main class="pt-[5.5rem]">
         <!-- Sección Inicio -->
-        <section id="inicio" class="min-h-screen flex items-center py-12 bg-gradient-to-r from-blue-50 to-indigo-50">
+        <section id="inicio" class="section-anchor hero-banner min-h-screen flex items-center py-16"<?= $heroBannerStyle !== '' ? ' style="' . $heroBannerStyle . '"' : '' ?>>
             <div class="container mx-auto px-4 text-center">
-                <h2 class="text-4xl font-bold mb-6 text-blue-900">Hola soy Jorge</h2>
-                <p class="text-xl mb-8 max-w-2xl mx-auto">Estudiante de programación en la <strong class="text-blue-700">Universidad Nacional de Salta</strong>, especializándome en <strong class="text-blue-700">ciberseguridad y redes</strong>.</p>
+                <h2 class="text-4xl font-bold mb-6 text-white drop-shadow-lg">Hola soy Jorge</h2>
+                <p class="text-xl mb-8 max-w-2xl mx-auto text-sky-100 drop-shadow-md">
+                    Estudiante de programación en la <strong class="text-white">Universidad Nacional de Salta</strong>, especializándome en <strong class="text-white">ciberseguridad y redes</strong>.
+                </p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">
                     <a href="#proyectos" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">Mis proyectos</a>
                     <a href="#contacto" class="bg-white hover:bg-gray-100 text-blue-600 border border-blue-600 font-bold py-3 px-6 rounded-lg transition">Contactame</a>
@@ -61,7 +70,7 @@ $habilidades = obtenerHabilidades($conexion);
         </section>
 
         <!-- Sección Sobre Mí -->
-        <section id="sobremi" class="py-16 bg-white">
+        <section id="sobremi" class="section-anchor py-16 bg-white">
             <div class="container mx-auto px-4">
                 <h2 class="text-3xl font-bold text-center mb-12 text-blue-900">Sobre Mí</h2>
                 <div class="max-w-4xl mx-auto">
@@ -101,7 +110,7 @@ $habilidades = obtenerHabilidades($conexion);
         </section>
 
         <!-- Sección Proyectos -->
-        <section id="proyectos" class="py-16 bg-gray-50">
+        <section id="proyectos" class="section-anchor py-16 bg-gray-50">
             <div class="container mx-auto px-4">
                 <h2 class="text-3xl font-bold text-center mb-12 text-blue-900">Mis Proyectos</h2>
                 
@@ -134,7 +143,7 @@ $habilidades = obtenerHabilidades($conexion);
         </section>
 
 <!-- Sección Contacto -->
-  <section id="contacto" class="py-16 bg-white">
+  <section id="contacto" class="section-anchor py-16 bg-white">
     <div class="container mx-auto px-4 max-w-2xl">
       <h2 class="text-3xl font-bold text-center mb-8 text-blue-900">Contacto</h2>
 
@@ -144,12 +153,12 @@ $habilidades = obtenerHabilidades($conexion);
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label class="block mb-2 font-medium">Nombre:</label>
-            <input type="text" name="nombre" required
+            <input type="text" name="nombre" required autocomplete="off"
               class="w-full px-4 py-2 border rounded-lg">
           </div>
           <div>
             <label class="block mb-2 font-medium">Apellido:</label>
-            <input type="text" name="apellido" required
+            <input type="text" name="apellido" required autocomplete="off"
               class="w-full px-4 py-2 border rounded-lg">
           </div>
         </div>
@@ -190,33 +199,81 @@ $habilidades = obtenerHabilidades($conexion);
 
 <footer class="bg-gray-800 text-white py-8">
     <div class="container mx-auto px-4 text-center">
-        <p>&copy; 2024 Castillo Chaustre Jorge Alberto - Todos los derechos reservados</p>
-        <p class="mt-2">📍 Salta, Argentina</p>
-        <p class="mt-2">📧 jorcascero@gmail.com</p>
+        <p> 2025 Castillo Chaustre Jorge Alberto - Todos los derechos reservados</p>
+        <p class="mt-2"> Salta, Argentina</p>
+        <p class="mt-2">Mail: jorcascero@gmail.com</p>
     </div>
 </footer>
 
-<!-- Script para cargar proyectos dinámicos (esto lo dejamos como estaba) -->
 <script>
-    fetch('php/crud/listar_proyectos.php')
-        .then(res => res.json())
-        .then(data => {
-            const container = document.getElementById('proyectos-lista');
-            container.innerHTML = "";
-            data.forEach(p => {
-                const card = document.createElement('div');
-                card.className = "bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition";
-                card.innerHTML = `
-                    <h3 class="text-xl font-bold mb-3 text-blue-800">${p.name_project}</h3>
-                    <p class="mb-4">${p.description}</p>
-                    <p class="mb-2"><strong class="text-blue-700">Estado:</strong> ${p.state == 1 ? "Activo" : "Inactivo"}</p>
-                `;
-                container.appendChild(card);
+    (function () {
+        const navToggle = document.getElementById('nav-toggle');
+        const primaryNav = document.getElementById('primary-nav');
+
+        if (navToggle && primaryNav) {
+            const showNav = () => {
+                primaryNav.classList.remove('hidden');
+                primaryNav.classList.add('flex');
+                navToggle.setAttribute('aria-expanded', 'true');
+            };
+
+            const hideNav = () => {
+                primaryNav.classList.add('hidden');
+                primaryNav.classList.remove('flex');
+                navToggle.setAttribute('aria-expanded', 'false');
+            };
+
+            navToggle.addEventListener('click', () => {
+                const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+                if (isExpanded) {
+                    hideNav();
+                } else {
+                    showNav();
+                }
             });
-        })
-        .catch(err => console.error("Error cargando proyectos:", err));
+
+            primaryNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 768) {
+                        hideNav();
+                    }
+                });
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    primaryNav.classList.add('flex');
+                    primaryNav.classList.remove('hidden');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                } else if (navToggle.getAttribute('aria-expanded') === 'false') {
+                    primaryNav.classList.add('hidden');
+                    primaryNav.classList.remove('flex');
+                }
+            });
+        }
+
+        const proyectosContainer = document.getElementById('proyectos-lista');
+        if (!proyectosContainer) {
+            return;
+        }
+
+        fetch('php/crud/listar_proyectos.php')
+            .then(res => res.json())
+            .then(data => {
+                proyectosContainer.innerHTML = '';
+                data.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition';
+                    card.innerHTML = `
+                        <h3 class="text-xl font-bold mb-3 text-blue-800">${p.name_project}</h3>
+                        <p class="mb-4">${p.description}</p>
+                        <p class="mb-2"><strong class="text-blue-700">Estado:</strong> ${p.state == 1 ? 'Activo' : 'Inactivo'}</p>
+                    `;
+                    proyectosContainer.appendChild(card);
+                });
+            })
+            .catch(err => console.error('Error cargando proyectos:', err));
+    }());
 </script>
 
- <script src="js/contacto.js"></script>
-</body>
-</html>
+<?php siteLayoutFooter(['scripts' => ['js/contacto.js']]); ?>

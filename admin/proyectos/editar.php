@@ -6,6 +6,7 @@ if (!isset($_SESSION['admin'])) {
 }
 
 require_once '../../php/conexion.php';
+require_once __DIR__ . '/../includes/layouts/panel.php';
 
 // Obtener el proyecto a editar
 $id = $_GET['id'] ?? 0;
@@ -36,69 +37,84 @@ $sql_asignadas = "SELECT id_tecnologia FROM proyectos_tecnologias WHERE id_proje
 $stmt = $conexion->prepare($sql_asignadas);
 $stmt->execute([$id]);
 $tecnologias_asignadas = $stmt->fetchAll(PDO::FETCH_COLUMN);
-?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Proyecto</title>
-</head>
-<body>
-    <h1>Editar Proyecto</h1>
-    
-    <?php if (isset($_SESSION['error'])): ?>
-        <p style="color: red;"><?= $_SESSION['error'] ?></p>
-        <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>
-    
-    <a href="index.php">← Volver a Proyectos</a>
-    
-    <form action="guardar.php" method="POST">
-        <input type="hidden" name="id_project" value="<?= $proyecto['id_project'] ?>">
-        
-        <div>
-            <label for="name_project">Nombre del Proyecto:</label>
-            <input type="text" id="name_project" name="name_project" 
-                   value="<?= htmlspecialchars($proyecto['name_project']) ?>" 
-                   required maxlength="60">
+adminLayoutHeader([
+    'title' => 'Editar Proyecto',
+    'subtitle' => 'Actualiza la información del proyecto seleccionado.',
+    'actions' => [
+        [
+            'href' => 'index.php',
+            'label' => ' Volver a Proyectos',
+            'variant' => 'secondary',
+        ],
+    ],
+]);
+?>
+        <div class="space-y-6 rounded-3xl border border-white/10 bg-panelCard/80 p-8 shadow-glow">
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                    <?= htmlspecialchars($_SESSION['error']) ?>
+                </div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
+
+            <form action="guardar.php" method="POST" class="space-y-6">
+                <input type="hidden" name="id_project" value="<?= $proyecto['id_project'] ?>">
+
+                <div class="space-y-2">
+                    <label for="name_project" class="block text-sm font-medium text-white/70">Nombre del Proyecto</label>
+                    <input type="text" id="name_project" name="name_project" required maxlength="60"
+                        value="<?= htmlspecialchars($proyecto['name_project']) ?>"
+                        class="w-full rounded-2xl border border-white/10 bg-panelMuted/60 px-4 py-3 text-sm text-white focus:border-panelAccent focus:outline-none focus:ring-2 focus:ring-panelAccent/30">
+                </div>
+
+                <div class="space-y-2">
+                    <label for="description" class="block text-sm font-medium text-white/70">Descripción</label>
+                    <textarea id="description" name="description" required maxlength="400" rows="4"
+                        class="w-full rounded-2xl border border-white/10 bg-panelMuted/60 px-4 py-3 text-sm text-white focus:border-panelAccent focus:outline-none focus:ring-2 focus:ring-panelAccent/30"><?= htmlspecialchars($proyecto['description']) ?></textarea>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="state" class="block text-sm font-medium text-white/70">Estado</label>
+                    <select id="state" name="state" required
+                        class="w-full rounded-2xl border border-white/10 bg-panelMuted/60 px-4 py-3 text-sm text-white focus:border-panelAccent focus:outline-none focus:ring-2 focus:ring-panelAccent/30">
+                        <option value="1" <?= $proyecto['state'] ? 'selected' : '' ?>>Activo</option>
+                        <option value="0" <?= !$proyecto['state'] ? 'selected' : '' ?>>Inactivo</option>
+                    </select>
+                </div>
+
+                <div class="space-y-3">
+                    <span class="block text-sm font-medium text-white/70">Tecnologías utilizadas</span>
+                    <div class="max-h-72 space-y-4 overflow-y-auto rounded-2xl border border-white/10 bg-panelMuted/40 p-4">
+                        <?php
+                        $categoria_actual = '';
+                        foreach ($tecnologias as $tec):
+                            if ($categoria_actual != $tec['nombre_categoria']):
+                                $categoria_actual = $tec['nombre_categoria'];
+                                echo '<h4 class="pt-2 text-xs font-semibold uppercase tracking-[0.3em] text-white/60">' . htmlspecialchars($categoria_actual) . '</h4>';
+                            endif;
+                        ?>
+                            <label class="flex items-center gap-3 rounded-2xl border border-white/5 bg-panelMuted/40 px-4 py-3 text-sm text-white/80">
+                                <input type="checkbox" name="tecnologias[]" value="<?= $tec['id_tecnologia'] ?>"
+                                    <?= in_array($tec['id_tecnologia'], $tecnologias_asignadas) ? 'checked' : '' ?>
+                                    class="h-4 w-4 rounded border-white/20 bg-panel focus:ring-panelAccent/40">
+                                <span>
+                                    <?= htmlspecialchars($tec['name_tecnologia']) ?>
+                                    <?php if (!empty($tec['version'])): ?>
+                                        <span class="text-white/40">(<?= htmlspecialchars($tec['version']) ?>)</span>
+                                    <?php endif; ?>
+                                </span>
+                            </label>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="inline-flex items-center rounded-full bg-panelAccent px-5 py-3 text-sm font-semibold text-panel transition hover:bg-panelAccent/85">
+                        Actualizar Proyecto
+                    </button>
+                </div>
+            </form>
         </div>
-        
-        <div>
-            <label for="description">Descripción:</label>
-            <textarea id="description" name="description" required maxlength="400"><?= htmlspecialchars($proyecto['description']) ?></textarea>
-        </div>
-        
-        <div>
-            <label for="state">Estado:</label>
-            <select id="state" name="state" required>
-                <option value="1" <?= $proyecto['state'] ? 'selected' : '' ?>>Activo</option>
-                <option value="0" <?= !$proyecto['state'] ? 'selected' : '' ?>>Inactivo</option>
-            </select>
-        </div>
-        
-        <div>
-            <label>Tecnologías utilizadas:</label>
-            <div style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px;">
-                <?php
-                $categoria_actual = '';
-                foreach ($tecnologias as $tec):
-                    if ($categoria_actual != $tec['nombre_categoria']):
-                        $categoria_actual = $tec['nombre_categoria'];
-                        echo "<h4>" . htmlspecialchars($categoria_actual) . "</h4>";
-                    endif;
-                ?>
-                    <label style="display: block; margin: 5px 0;">
-                        <input type="checkbox" name="tecnologias[]" value="<?= $tec['id_tecnologia'] ?>"
-                            <?= in_array($tec['id_tecnologia'], $tecnologias_asignadas) ? 'checked' : '' ?>>
-                        <?= htmlspecialchars($tec['name_tecnologia']) ?>
-                        <?= !empty($tec['version']) ? '(' . htmlspecialchars($tec['version']) . ')' : '' ?>
-                    </label>
-                <?php endforeach; ?>
-            </div>
-        </div>
-        
-        <button type="submit">Actualizar Proyecto</button>
-    </form>
-</body>
-</html>
+<?php adminLayoutFooter(); ?>

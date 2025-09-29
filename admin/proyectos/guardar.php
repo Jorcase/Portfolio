@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Eliminar relaciones existentes
             $sql_delete = "DELETE FROM proyectos_tecnologias WHERE id_project = ?";
             $stmt = $conexion->prepare($sql_delete);
-            $stmt->execute([$id]);
+            $stmt->execute([$id]) ;
             
             $_SESSION['success'] = "Proyecto actualizado correctamente";
         } else {

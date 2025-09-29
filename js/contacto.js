@@ -28,25 +28,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (data.success) {
         statusBox.innerHTML =
-          `<div class="bg-green-200 text-green-800 p-3 rounded mb-3">✅ ${data.message}</div>`;
+          `<div class="bg-green-200 text-green-800 p-3 rounded mb-3"> ${data.message}</div>`;
         form.reset();
 
-        // 🔄 Pedir un nuevo token automáticamente
+        // Pedir un nuevo token automáticamente
         const resToken = await fetch("php/nuevo_token.php");
         const dataToken = await resToken.json();
         tokenField.value = dataToken.token;
 
-        // ⏳ Hacer desaparecer el mensaje luego de 5 segundos
+        // Hacer desaparecer el mensaje luego de 5 segundos
         setTimeout(() => {
           statusBox.innerHTML = "";
         }, 4000);
       } else {
         statusBox.innerHTML =
-          `<div class="bg-red-200 text-red-800 p-3 rounded mb-3">❌ ${data.message}</div>`;
+          `<div class="bg-red-200 text-red-800 p-3 rounded mb-3"> ${data.message}</div>`;
       }
     } catch (error) {
       statusBox.innerHTML =
-        `<div class="bg-red-200 text-red-800 p-3 rounded mb-3">❌ Error inesperado: ${error}</div>`;
+        `<div class="bg-red-200 text-red-800 p-3 rounded mb-3"> Error inesperado: ${error}</div>`;
     } finally {
       // Rehabilitar botón
       submitBtn.disabled = false;

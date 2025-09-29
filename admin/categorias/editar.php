@@ -23,35 +23,45 @@ if (!$categoria) {
     header("Location: index.php");
     exit;
 }
-?>
 
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Editar Categoría</title>
-</head>
-<body>
-    <h1>Editar Categoría</h1>
-    
-    <?php if (isset($_SESSION['error'])): ?>
-        <p style="color: red;"><?= $_SESSION['error'] ?></p>
-        <?php unset($_SESSION['error']); ?>
-    <?php endif; ?>
-    
-    <a href="index.php">← Volver a Categorías</a>
-    
-    <form action="guardar.php" method="POST">
-        <input type="hidden" name="id_categoria" value="<?= $categoria['id_categoria'] ?>">
-        
-        <div>
-            <label for="nombre_categoria">Nombre de la Categoría:</label>
-            <input type="text" id="nombre_categoria" name="nombre_categoria" 
-                   value="<?= htmlspecialchars($categoria['nombre_categoria']) ?>" 
-                   required maxlength="100">
+require_once __DIR__ . '/../includes/layouts/panel.php';
+
+adminLayoutHeader([
+    'title' => 'Editar Categoría',
+    'subtitle' => 'Modifica el nombre de la categoría seleccionada.',
+    'actions' => [
+        [
+            'href' => 'index.php',
+            'label' => ' Volver a Categorías',
+            'variant' => 'secondary',
+        ],
+    ],
+]);
+?>
+        <div class="space-y-6 rounded-3xl border border-white/10 bg-panelCard/80 p-8 shadow-glow">
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+                    <?= htmlspecialchars($_SESSION['error']) ?>
+                </div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
+
+            <form action="guardar.php" method="POST" class="space-y-6">
+                <input type="hidden" name="id_categoria" value="<?= $categoria['id_categoria'] ?>">
+
+                <div class="space-y-2">
+                    <label for="nombre_categoria" class="block text-sm font-medium text-white/70">Nombre de la categoría</label>
+                    <input type="text" id="nombre_categoria" name="nombre_categoria" required maxlength="100"
+                        value="<?= htmlspecialchars($categoria['nombre_categoria']) ?>"
+                        class="w-full rounded-2xl border border-white/10 bg-panelMuted/60 px-4 py-3 text-sm text-white focus:border-panelAccent focus:outline-none focus:ring-2 focus:ring-panelAccent/30">
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="inline-flex items-center rounded-full bg-panelAccent px-5 py-3 text-sm font-semibold text-panel transition hover:bg-panelAccent/85">
+                        Actualizar Categoría
+                    </button>
+                </div>
+            </form>
         </div>
-        
-        <button type="submit">Actualizar Categoría</button>
-    </form>
-</body>
-</html>
+<?php adminLayoutFooter(); ?>
